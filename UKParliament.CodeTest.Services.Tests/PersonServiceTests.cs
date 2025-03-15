@@ -46,4 +46,30 @@ public class PersonServiceTests
         var savedPerson = await service.AddPersonAsync(newPerson);
         A.CallTo(() => fakePersonRepo.AddPersonAsync(newPerson)).MustHaveHappenedOnceExactly();
     }
+    
+    [Fact]
+    public async Task PersonService_GetAllAsync_ReturnsAllPeople()
+    {
+        var fakePeople = new List<Person>
+        {
+            new() { Id = 1, FirstName = "Alice", LastName = "Smith" },
+            new() { Id = 2, FirstName = "Bob", LastName = "Jones" },
+            new() { Id = 3, FirstName = "Charlie", LastName = "Brown" }
+        };
+
+        var fakePersonRepo = A.Fake<IPersonRepository>();
+        A.CallTo(() => fakePersonRepo.GetAllAsync())
+            .Returns(Task.FromResult<IEnumerable<Person>>(fakePeople));
+
+        var service = new PersonService(fakePersonRepo);
+
+        var result = await service.GetAllAsync();
+
+        Assert.Equal(3, result.Count());
+
+        Assert.Contains(result, p => p.Id == 1 && p.FirstName == "Alice" && p.LastName == "Smith");
+        Assert.Contains(result, p => p.Id == 2 && p.FirstName == "Bob" && p.LastName == "Jones");
+        Assert.Contains(result, p => p.Id == 3 && p.FirstName == "Charlie" && p.LastName == "Brown");
+    }
+
 }

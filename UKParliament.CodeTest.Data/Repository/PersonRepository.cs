@@ -8,4 +8,9 @@ public class PersonRepository(PersonManagerContext personManagerContext) : IPers
     {
         return personManagerContext.People.SingleOrDefault(x => x.Id == personId);
     }
+
+    public void AddPerson(Person newPerson)
+    {
+        personManagerContext.People.Add(newPerson);
+    }
 }

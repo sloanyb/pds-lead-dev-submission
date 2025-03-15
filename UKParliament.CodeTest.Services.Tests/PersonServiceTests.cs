@@ -14,8 +14,8 @@ public class PersonServiceTests
         var fakePerson = new Person()
         {
             Id = 1,
-            FirstName = "Bob",
-            LastName = "Smith"
+            FirstName = "Joe",
+            LastName = "Bloggs"
         };
         
         var fakePersonRepo = A.Fake<IPersonRepository>();
@@ -23,6 +23,12 @@ public class PersonServiceTests
         A.CallTo(() => fakePersonRepo.GetPerson(1)).Returns(fakePerson);
         
         var service = new PersonService(fakePersonRepo);
+
+        var person = service.GetPersonById(1);
         
+        Assert.NotNull(fakePerson);
+        Assert.Equal("Bloggs", person.LastName);
+        Assert.Equal("Joe", person.FirstName);
+        Assert.Equal(1, person.Id);
     }
 }

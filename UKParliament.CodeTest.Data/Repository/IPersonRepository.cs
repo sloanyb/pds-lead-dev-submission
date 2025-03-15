@@ -4,5 +4,5 @@ namespace UKParliament.CodeTest.Data.Repository;
 
 public interface IPersonRepository
 {
-    Person GetPerson(int personId);
+    Person? GetPerson(int personId);
 }

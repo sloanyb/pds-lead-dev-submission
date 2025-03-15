@@ -4,8 +4,8 @@ namespace UKParliament.CodeTest.Data.Repository;
 
 public class PersonRepository(PersonManagerContext personManagerContext) : IPersonRepository
 {
-    public Person GetPerson(int personId)
+    public Person? GetPerson(int personId)
     {
-        throw new NotImplementedException();
+        return personManagerContext.People.SingleOrDefault(x => x.Id == personId);
     }
 }

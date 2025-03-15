@@ -16,7 +16,7 @@ public class PersonRepositoryTests
     
         using (var context = new PersonManagerContext(options))
         {
-            context.People.Add(new Person { Id = 1, FirstName = "Bob", LastName = "Smith" });
+            context.People.Add(new Person { Id = 1, FirstName = "Joe", LastName = "Bloggs" });
             context.SaveChanges();
         }
     

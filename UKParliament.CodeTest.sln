@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UKParliament.CodeTest.Web.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UKParliament.CodeTest.Services.Tests", "UKParliament.CodeTest.Services.Tests\UKParliament.CodeTest.Services.Tests.csproj", "{99173C82-D49F-486F-85E7-9F5FD2CC4BE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UKParliament.CodeTest.Data.Tests", "UKParliament.CodeTest.Data.Tests\UKParliament.CodeTest.Data.Tests.csproj", "{FE0AD882-5718-4BA2-A8C2-AD0C6B5D5C78}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{82A9D92A-72FE-48C3-9685-05E09F39C0A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,11 +43,20 @@ Global
 		{99173C82-D49F-486F-85E7-9F5FD2CC4BE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99173C82-D49F-486F-85E7-9F5FD2CC4BE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99173C82-D49F-486F-85E7-9F5FD2CC4BE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE0AD882-5718-4BA2-A8C2-AD0C6B5D5C78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE0AD882-5718-4BA2-A8C2-AD0C6B5D5C78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE0AD882-5718-4BA2-A8C2-AD0C6B5D5C78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE0AD882-5718-4BA2-A8C2-AD0C6B5D5C78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B3BA769F-8BCD-4B34-B4BC-ECCCD848D3A1}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FE0AD882-5718-4BA2-A8C2-AD0C6B5D5C78} = {82A9D92A-72FE-48C3-9685-05E09F39C0A4}
+		{99173C82-D49F-486F-85E7-9F5FD2CC4BE7} = {82A9D92A-72FE-48C3-9685-05E09F39C0A4}
+		{C5043F52-CCC3-4FD3-8260-A538D0F402BF} = {82A9D92A-72FE-48C3-9685-05E09F39C0A4}
 	EndGlobalSection
 EndGlobal

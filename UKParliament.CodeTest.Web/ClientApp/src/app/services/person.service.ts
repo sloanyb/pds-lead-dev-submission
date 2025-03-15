@@ -16,4 +16,12 @@ export class PersonService {
   getAll(): Observable<PersonViewModel[]> {
     return this.http.get<PersonViewModel[]>(this.baseUrl + 'api/person');
   }
+
+  addPerson(person: PersonViewModel): Observable<PersonViewModel> {
+    return this.http.post<PersonViewModel>(`${this.baseUrl}api/person`, person);
+  }
+
+  updatePerson(person: PersonViewModel): Observable<PersonViewModel> {
+    return this.http.put<PersonViewModel>(`${this.baseUrl}api/person/${person.id}`, person);
+  }
 }

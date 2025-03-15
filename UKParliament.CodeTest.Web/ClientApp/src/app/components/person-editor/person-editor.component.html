@@ -1,1 +1,13 @@
-<p>person-editor works!</p>
+<h2>Edit Person</h2>
+<form [formGroup]="personForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="firstName">First Name:</label>
+    <input id="firstName" formControlName="firstName" type="text">
+  </div>
+  <div>
+    <label for="lastName">Last Name:</label>
+    <input id="lastName" formControlName="lastName" type="text">
+  </div>
+
+  <button type="submit" [disabled]="personForm.invalid">Save</button>
+</form>

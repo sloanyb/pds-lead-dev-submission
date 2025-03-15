@@ -14,5 +14,15 @@ Content-Type: application/json
 ### GET: Retrieve the person by id
 GET https://localhost:44416/api/person/{{personId}}
 
+### PUT: Update an existing person
+PUT https://localhost:44416/api/person/{{personId}}
+Content-Type: application/json
+
+{
+  "id": {{personId}},
+  "firstName": "Janet",
+  "lastName": "Doe"
+}
+
 ### Get all people
 GET https://localhost:44416/api/person

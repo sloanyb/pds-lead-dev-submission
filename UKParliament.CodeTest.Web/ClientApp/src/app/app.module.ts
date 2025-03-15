@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -15,11 +15,11 @@ import { PersonEditorComponent } from './components/person-editor/person-editor.
         PersonListComponent,
         PersonEditorComponent
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-        FormsModule,
-        RouterModule.forRoot([
-            { path: '', component: PersonListComponent, pathMatch: 'full' },
-            { path: 'person/edit/:id', component: PersonEditorComponent },
-            { path: 'instructions', component: InstructionsComponent, pathMatch: 'full' }
-        ])], providers: [provideHttpClient(withInterceptorsFromDi())] })
+    bootstrap: [AppComponent], imports: [BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
+    FormsModule,
+    RouterModule.forRoot([
+      {path: '', component: PersonListComponent, pathMatch: 'full'},
+      {path: 'person/edit/:id', component: PersonEditorComponent},
+      {path: 'instructions', component: InstructionsComponent, pathMatch: 'full'}
+    ]), ReactiveFormsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }

@@ -17,4 +17,9 @@ public class PersonRepository(PersonManagerContext personManagerContext) : IPers
         
         return await GetPersonAsync(newPerson.Id)!;
     }
+
+    public async Task<IEnumerable<Person>> GetAllAsync()
+    {
+        return await personManagerContext.People.ToListAsync();
+    }
 }

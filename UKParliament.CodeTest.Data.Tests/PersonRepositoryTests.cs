@@ -73,9 +73,23 @@ public class PersonRepositoryTests
         using (var context = new PersonManagerContext(options))
         {
             var repo = new PersonRepository(context);
-            var people = await repo.GetAll();
+            var people = (await repo.GetAllAsync()).ToList();
 
             Assert.True(people.Count() == 4);
+            
+            // Assert on individual person's names based on the ordering
+            Assert.Equal("Kathryn", people[0].FirstName);
+            Assert.Equal("Janeway", people[0].LastName);
+
+            Assert.Equal("Tom", people[1].FirstName);
+            Assert.Equal("Paris", people[1].LastName);
+
+            Assert.Equal("Harry", people[2].FirstName);
+            Assert.Equal("Kim", people[2].LastName);
+
+            Assert.Equal("B'Elanna", people[3].FirstName);
+            Assert.Equal("Torres", people[3].LastName);
+
         }
     }
 

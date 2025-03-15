@@ -54,6 +54,32 @@ public class PersonRepositoryTests
     }
 
     [Fact]
+    public async Task GetAll_ReturnsAllPeople()
+    {
+        var options = new DbContextOptionsBuilder<PersonManagerContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+    
+        using (var context = new PersonManagerContext(options))
+        {
+            context.People.Add(new Person { Id = 1, FirstName = "Kathryn", LastName = "Janeway" });
+            context.People.Add(new Person { Id = 2, FirstName = "Tom", LastName = "Paris" });
+            context.People.Add(new Person { Id = 3, FirstName = "Harry", LastName = "Kim" });
+            context.People.Add(new Person { Id = 4, FirstName = "B'Elanna", LastName = "Torres" });
+            
+            await context.SaveChangesAsync();
+        }
+    
+        using (var context = new PersonManagerContext(options))
+        {
+            var repo = new PersonRepository(context);
+            var people = await repo.GetAll();
+
+            Assert.True(people.Count() == 4);
+        }
+    }
+
+    [Fact]
     public async Task AddingNewPerson_SavesIntoDatabase()
     {
         var options = new DbContextOptionsBuilder<PersonManagerContext>()

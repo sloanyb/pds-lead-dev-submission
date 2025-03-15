@@ -82,4 +82,30 @@ public class PersonControllerTests
                 p => p.FirstName == "Alice" && p.LastName == "Smith")))
             .MustHaveHappenedOnceExactly();
     }
+    
+    [Fact]
+    public async Task WhenGetAllCalled_ReturnsAllPeople()
+    {
+        var fakePeople = new List<Person>
+        {
+            new Person { Id = 1, FirstName = "Alice", LastName = "Smith" },
+            new Person { Id = 2, FirstName = "Bob", LastName = "Jones" }
+        };
+
+        var personService = A.Fake<IPersonService>();
+        A.CallTo(() => personService.GetAllAsync())
+            .Returns(Task.FromResult<IEnumerable<Person>>(fakePeople));
+
+        var controller = new PersonController(personService);
+
+        var result = await controller.GetAllAsync();
+
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        var viewModelList = Assert.IsAssignableFrom<IEnumerable<PersonViewModel>>(okResult.Value);
+
+        Assert.Equal(2, viewModelList.Count());
+        Assert.Contains(viewModelList, vm => vm.Id == 1 && vm.FirstName == "Alice" && vm.LastName == "Smith");
+        Assert.Contains(viewModelList, vm => vm.Id == 2 && vm.FirstName == "Bob" && vm.LastName == "Jones");
+    }
+
 }

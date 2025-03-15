@@ -52,7 +52,7 @@ public class PersonControllerTests
     public async Task WhenValidPersonIsAdded_ReturnsCreatedAtActionResult()
     {
         var personService = A.Fake<IPersonService>();
-        
+
         A.CallTo(() => personService.AddPersonAsync(A<Person>.Ignored))
             .ReturnsLazily((Person p) =>
             {
@@ -82,7 +82,7 @@ public class PersonControllerTests
                 p => p.FirstName == "Alice" && p.LastName == "Smith")))
             .MustHaveHappenedOnceExactly();
     }
-    
+
     [Fact]
     public async Task WhenGetAllCalled_ReturnsAllPeople()
     {
@@ -108,4 +108,33 @@ public class PersonControllerTests
         Assert.Contains(viewModelList, vm => vm.Id == 2 && vm.FirstName == "Bob" && vm.LastName == "Jones");
     }
 
+    [Fact]
+    public async Task WhenValidPersonIsUpdated_ReturnsUpdatedPerson()
+    {
+        var updatedPerson = new Person { Id = 1, FirstName = "Joseph", LastName = "Bloggs" };
+
+        var personService = A.Fake<IPersonService>();
+
+        A.CallTo(() => personService.UpdatePersonAsync(A<Person>.That.Matches(
+                p => p.Id == 1 && p.FirstName == "Joseph" && p.LastName == "Bloggs")))
+            .Returns(Task.FromResult(updatedPerson));
+
+        var controller = new PersonController(personService);
+        
+        var updateViewModel = new PersonViewModel
+        {
+            Id = 1,
+            FirstName = "Joseph",
+            LastName = "Bloggs"
+        };
+
+        var result = await controller.Update(1, updateViewModel);
+
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnedViewModel = Assert.IsType<PersonViewModel>(okResult.Value);
+        
+        Assert.Equal(1, returnedViewModel.Id);
+        Assert.Equal("Joseph", returnedViewModel.FirstName);
+        Assert.Equal("Bloggs", returnedViewModel.LastName);
+    }
 }

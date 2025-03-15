@@ -68,4 +68,26 @@ public class PersonController : ControllerBase
 
         return Ok(peopleModels);
     }
+    
+    [HttpPut("{id}")]
+    public async Task<ActionResult<PersonViewModel>> Update(int id, PersonViewModel personViewModel)
+    {
+        var personToUpdate = new Person
+        {
+            Id = id,
+            FirstName = personViewModel.FirstName,
+            LastName = personViewModel.LastName
+        };
+
+        var updatedPerson = await _personService.UpdatePersonAsync(personToUpdate);
+        
+        var updatedViewModel = new PersonViewModel
+        {
+            Id = id,
+            FirstName = updatedPerson.FirstName,
+            LastName = updatedPerson.LastName
+        };
+
+        return Ok(updatedViewModel);
+    }
 }

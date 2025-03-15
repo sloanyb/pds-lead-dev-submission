@@ -71,4 +71,27 @@ public class PersonServiceTests
         Assert.Contains(result, p => p.Id == 2 && p.FirstName == "Bob" && p.LastName == "Jones");
         Assert.Contains(result, p => p.Id == 3 && p.FirstName == "Charlie" && p.LastName == "Brown");
     }
+    
+    [Fact]
+    public async Task PersonService_UpdatePerson_ReturnsUpdatedPerson()
+    {
+        var originalPerson = new Person { Id = 1, FirstName = "Joe", LastName = "Bloggs" };
+        var updatedPerson = new Person { Id = 1, FirstName = "Joseph", LastName = "Bloggs" };
+
+        var fakePersonRepo = A.Fake<IPersonRepository>();
+        A.CallTo(() => fakePersonRepo.UpdatePersonAsync(A<Person>.That.Matches(
+                p => p.Id == originalPerson.Id &&
+                     p.FirstName == originalPerson.FirstName &&
+                     p.LastName == originalPerson.LastName)))
+            .Returns(Task.FromResult(updatedPerson));
+
+        var service = new PersonService(fakePersonRepo);
+
+        var result = await service.UpdatePersonAsync(originalPerson);
+
+        Assert.Equal("Joseph", result.FirstName);
+        
+        A.CallTo(() => fakePersonRepo.UpdatePersonAsync(A<Person>.Ignored))
+            .MustHaveHappenedOnceExactly();
+    }
 }

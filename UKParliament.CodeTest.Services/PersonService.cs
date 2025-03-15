@@ -26,4 +26,9 @@ public class PersonService : IPersonService
     {
         return await _personRepository.GetAllAsync();
     }
+    
+    public async Task<Person> UpdatePersonAsync(Person person)
+    {
+        return await _personRepository.UpdatePersonAsync(person);
+    }
 }

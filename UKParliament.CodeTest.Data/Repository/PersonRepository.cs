@@ -22,4 +22,12 @@ public class PersonRepository(PersonManagerContext personManagerContext) : IPers
     {
         return await personManagerContext.People.ToListAsync();
     }
+    
+    public async Task<Person> UpdatePersonAsync(Person person)
+    {
+        personManagerContext.People.Update(person);
+        await personManagerContext.SaveChangesAsync();
+        
+        return person;
+    }
 }

@@ -7,7 +7,6 @@ namespace UKParliament.CodeTest.Services.Tests;
 
 public class PersonServiceTests
 {
-
     [Fact]
     public void PersonService_WhenPersonExists_ReturnsPerson()
     {

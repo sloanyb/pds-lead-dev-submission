@@ -1,6 +1,7 @@
 ﻿using FakeItEasy;
 using Microsoft.EntityFrameworkCore;
 using UKParliament.CodeTest.Data.Model;
+using UKParliament.CodeTest.Data.Repository;
 using Xunit;
 
 

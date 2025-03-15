@@ -1,0 +1,19 @@
+<h2>Add New Person</h2>
+<form [formGroup]="personForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="firstName">First Name:</label>
+    <input id="firstName" formControlName="firstName" type="text">
+    <div *ngIf="personForm.get('firstName')?.invalid && personForm.get('firstName')?.touched">
+      First Name is required.
+    </div>
+  </div>
+  <div>
+    <label for="lastName">Last Name:</label>
+    <input id="lastName" formControlName="lastName" type="text">
+    <div *ngIf="personForm.get('lastName')?.invalid && personForm.get('lastName')?.touched">
+      Last Name is required.
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="personForm.invalid">Add Person</button>
+</form>

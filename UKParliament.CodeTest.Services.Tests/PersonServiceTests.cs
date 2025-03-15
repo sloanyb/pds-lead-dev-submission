@@ -38,13 +38,11 @@ public class PersonServiceTests
         var service = new PersonService(fakePersonRepo);
         var newPerson = new Person
         {
-            Id = 2,
             FirstName = "Alice",
             LastName = "Smith"
         };
 
-        service.AddPerson(newPerson);
-        
+        var savedPerson = service.AddPerson(newPerson);
         A.CallTo(() => fakePersonRepo.AddPerson(newPerson)).MustHaveHappenedOnceExactly();
     }
 }

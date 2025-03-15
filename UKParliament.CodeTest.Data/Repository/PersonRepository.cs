@@ -9,8 +9,11 @@ public class PersonRepository(PersonManagerContext personManagerContext) : IPers
         return personManagerContext.People.SingleOrDefault(x => x.Id == personId);
     }
 
-    public void AddPerson(Person newPerson)
+    public Person AddPerson(Person newPerson)
     {
         personManagerContext.People.Add(newPerson);
+        personManagerContext.SaveChanges();
+        
+        return GetPerson(newPerson.Id)!;
     }
 }

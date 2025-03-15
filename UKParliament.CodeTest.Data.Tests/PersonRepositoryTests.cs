@@ -76,6 +76,7 @@ public class PersonRepositoryTests
             Assert.NotNull(person);
             Assert.Equal("Alice", person.FirstName);
             Assert.Equal("Wonderland", person.LastName);
+            Assert.True(person.Id > 0);
         }
     }
 

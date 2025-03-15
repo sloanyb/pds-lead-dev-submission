@@ -17,8 +17,8 @@ public class PersonService : IPersonService
         return _personRepository.GetPerson(personId);
     }
 
-    public void AddPerson(Person newPerson)
+    public Person AddPerson(Person newPerson)
     {
-        _personRepository.AddPerson(newPerson);
+        return _personRepository.AddPerson(newPerson);
     }
 }

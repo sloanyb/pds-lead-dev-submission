@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UKParliament.CodeTest.Data.Model;
 using UKParliament.CodeTest.Services;
 using UKParliament.CodeTest.Web.ViewModels;
 
@@ -30,5 +31,17 @@ public class PersonController : ControllerBase
             LastName = person.LastName,
             FirstName = person.FirstName,
         });
+    }
+
+    [HttpPost]
+    public IActionResult Add(PersonViewModel newPersonViewModel)
+    {
+        var personToAdd = new Person()
+        {
+            FirstName = newPersonViewModel.FirstName,
+            LastName = newPersonViewModel.LastName
+        };
+        
+        var addedPerson = _personService.AddPerson(personToAdd);
     }
 }

@@ -31,4 +31,21 @@ public class PersonServiceTests
         Assert.Equal("Joe", person.FirstName);
         Assert.Equal(1, person.Id);
     }
+    
+    [Fact]
+    public void PersonService_AddPerson_CallsRepositoryAddPerson()
+    {
+        var fakePersonRepo = A.Fake<IPersonRepository>();
+        var service = new PersonService(fakePersonRepo);
+        var newPerson = new Person
+        {
+            Id = 2,
+            FirstName = "Alice",
+            LastName = "Smith"
+        };
+
+        service.AddPerson(newPerson);
+        
+        A.CallTo(() => fakePersonRepo.AddPerson(newPerson)).MustHaveHappenedOnceExactly();
+    }
 }

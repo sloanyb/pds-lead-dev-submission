@@ -2,7 +2,7 @@
 
 namespace UKParliament.CodeTest.Services;
 
-public class PersonService(PersonManagerContext personManagerContext) : IPersonService
+public class PersonService(IPersonRepository personManagerContext) : IPersonService
 {
     private readonly PersonManagerContext _personManagerContext = personManagerContext;
 }

@@ -1,5 +1,6 @@
 ﻿using FakeItEasy;
 using UKParliament.CodeTest.Data.Model;
+using UKParliament.CodeTest.Data.Repository;
 using Xunit;
 
 namespace UKParliament.CodeTest.Services.Tests;
@@ -23,9 +24,4 @@ public class PersonServiceTests
         
         var service = new PersonService(fakePersonRepo);
     }
-}
-
-public interface IPersonRepository
-{
-    Person GetPerson(int personId);
 }

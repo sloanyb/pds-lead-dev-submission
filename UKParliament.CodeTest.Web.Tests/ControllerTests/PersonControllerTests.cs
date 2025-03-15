@@ -1,7 +1,9 @@
 ﻿using FakeItEasy;
+using Microsoft.AspNetCore.Mvc;
 using UKParliament.CodeTest.Data.Model;
 using UKParliament.CodeTest.Services;
 using UKParliament.CodeTest.Web.Controllers;
+using UKParliament.CodeTest.Web.ViewModels;
 using Xunit;
 
 namespace UKParliament.CodeTest.Web.Tests.ControllerTests;
@@ -23,12 +25,12 @@ public class PersonControllerTests
         A.CallTo(() => personService.GetPersonById(1)).Returns(person);
         
         var controller = new PersonController(personService);
-        
         var result = controller.GetById(1);
-
-        Assert.NotNull(result);
-        Assert.NotNull(result.Value);
-        Assert.Equal("Bloggs", result.Value.LastName);
-        Assert.Equal("Joe", result.Value.FirstName);
+        
+        var okObjectResult = result.Result as OkObjectResult;
+        var personViewModel = okObjectResult.Value as PersonViewModel;
+        
+        Assert.Equal("Bloggs",personViewModel.LastName);
+        Assert.Equal("Joe", personViewModel.FirstName);
     }
 }

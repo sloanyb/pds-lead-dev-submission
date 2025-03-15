@@ -19,6 +19,12 @@ public class PersonController : ControllerBase
     [HttpGet]
     public ActionResult<PersonViewModel> GetById(int id)
     {
-        return Ok(new PersonViewModel());
+        var person = _personService.GetPersonById(id);
+        return Ok(new PersonViewModel()
+        {
+            Id = person.Id,
+            LastName = person.LastName,
+            FirstName = person.FirstName,
+        });
     }
 }

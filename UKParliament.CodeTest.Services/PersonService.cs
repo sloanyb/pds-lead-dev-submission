@@ -3,12 +3,17 @@ using UKParliament.CodeTest.Data.Repository;
 
 namespace UKParliament.CodeTest.Services;
 
-public class PersonService(IPersonRepository personManagerRepository) : IPersonService
+public class PersonService : IPersonService
 {
-    private readonly IPersonRepository _personManagerRepository = personManagerRepository;
+    private readonly IPersonRepository _personRepository;
 
-    public Person GetPersonById(int personId)
+    public PersonService(IPersonRepository personRepository)
     {
-        throw new NotImplementedException();
+        _personRepository = personRepository;
+    }
+    
+    public Person? GetPersonById(int personId)
+    {
+        return _personRepository.GetPerson(personId);
     }
 }

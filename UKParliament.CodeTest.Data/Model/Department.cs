@@ -1,4 +1,4 @@
-﻿namespace UKParliament.CodeTest.Data;
+﻿namespace UKParliament.CodeTest.Data.Model;
 
 public class Department
 {

@@ -71,5 +71,4 @@ public class PersonServiceTests
         Assert.Contains(result, p => p.Id == 2 && p.FirstName == "Bob" && p.LastName == "Jones");
         Assert.Contains(result, p => p.Id == 3 && p.FirstName == "Charlie" && p.LastName == "Brown");
     }
-
 }

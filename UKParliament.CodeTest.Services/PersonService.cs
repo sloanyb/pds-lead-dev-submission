@@ -21,4 +21,9 @@ public class PersonService : IPersonService
     {
         return await _personRepository.AddPersonAsync(newPerson);
     }
+
+    public async Task<IEnumerable<Person>> GetAllAsync()
+    {
+        return await _personRepository.GetAllAsync();
+    }
 }

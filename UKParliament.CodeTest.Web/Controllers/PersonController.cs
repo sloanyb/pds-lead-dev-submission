@@ -21,6 +21,9 @@ public class PersonController : ControllerBase
     {
         var person = _personService.GetPersonById(id);
         
+        if(person == null)
+            return NotFound();
+        
         return Ok(new PersonViewModel()
         {
             Id = person.Id,

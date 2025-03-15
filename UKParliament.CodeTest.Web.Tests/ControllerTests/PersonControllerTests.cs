@@ -26,9 +26,12 @@ public class PersonControllerTests
         
         var controller = new PersonController(personService);
         var result = controller.GetById(1);
+
+        Assert.IsType<OkObjectResult>(result.Result);
         
-        var okObjectResult = result.Result as OkObjectResult;
-        var personViewModel = okObjectResult.Value as PersonViewModel;
+        var personViewModel = ((OkObjectResult)result.Result).Value as PersonViewModel;
+        
+        Assert.NotNull(personViewModel);
         
         Assert.Equal("Bloggs",personViewModel.LastName);
         Assert.Equal("Joe", personViewModel.FirstName);

@@ -1,4 +1,5 @@
-// person.service.spec.ts
+// Disclaimer: ChatGPT used to assist me to generate this test, as I am not very experienced with frontend testing frameworks.
+
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { PersonService } from './person.service';

@@ -52,4 +52,31 @@ public class PersonRepositoryTests
             Assert.Null(person);
         }
     }
+
+    [Fact]
+    public void AddingNewPerson_SavesIntoDatabase()
+    {
+        var options = new DbContextOptionsBuilder<PersonManagerContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+    
+        using (var context = new PersonManagerContext(options))
+        {
+            var repo = new PersonRepository(context);
+            var newPerson = new Person { Id = 1, FirstName = "Alice", LastName = "Wonderland" };
+            repo.AddPerson(newPerson);
+            context.SaveChanges();
+        }
+    
+        using (var context = new PersonManagerContext(options))
+        {
+            var repo = new PersonRepository(context);
+            var person = repo.GetPerson(1);
+        
+            Assert.NotNull(person);
+            Assert.Equal("Alice", person.FirstName);
+            Assert.Equal("Wonderland", person.LastName);
+        }
+    }
+
 }

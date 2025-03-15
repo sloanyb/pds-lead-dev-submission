@@ -53,4 +53,19 @@ public class PersonController : ControllerBase
         
         return CreatedAtAction(nameof(GetById), new { id = addedPerson.Id }, returnViewModel);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllAsync()
+    {
+        var people = await _personService.GetAllAsync();
+        
+        var peopleModels = people.Select(p => new PersonViewModel
+        {
+            Id = p.Id,
+            FirstName = p.FirstName,
+            LastName = p.LastName
+        });
+
+        return Ok(peopleModels);
+    }
 }

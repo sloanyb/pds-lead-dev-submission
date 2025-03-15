@@ -5,7 +5,7 @@ POST https://localhost:44416/api/person
 Content-Type: application/json
 
 {
-  "firstName": "John",
+  "firstName": "Jane",
   "lastName": "Doe"
 }
 
@@ -14,3 +14,5 @@ Content-Type: application/json
 ### GET: Retrieve the person by id
 GET https://localhost:44416/api/person/{{personId}}
 
+### Get all people
+GET https://localhost:44416/api/person

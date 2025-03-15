@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { PersonService } from '../../services/person.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-instructions',
+  templateUrl: './instructions.component.html',
+  styleUrls: ['./instructions.component.scss']
 })
-export class HomeComponent {
+export class InstructionsComponent {
   constructor(private personService: PersonService) {
     this.getPersonById(1);
   }

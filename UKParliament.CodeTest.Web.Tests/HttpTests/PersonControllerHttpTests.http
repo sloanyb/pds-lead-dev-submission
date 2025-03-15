@@ -1,0 +1,16 @@
+﻿### Rider http test files to manually test the API post/get
+
+### POST: Save a new person
+POST https://localhost:44416/api/person
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe"
+}
+
+> {% client.global.set("personId", response.body.id) %}
+
+### GET: Retrieve the person by id
+GET https://localhost:44416/api/person/{{personId}}
+

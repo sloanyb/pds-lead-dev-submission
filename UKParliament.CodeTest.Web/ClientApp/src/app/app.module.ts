@@ -5,15 +5,18 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
+import { InstructionsComponent } from './components/instructions/instructions.component';
+import { PersonListComponent } from './components/person-list/person-list.component';
 
 @NgModule({ declarations: [
         AppComponent,
-        HomeComponent
+        InstructionsComponent,
+        PersonListComponent
     ],
     bootstrap: [AppComponent], imports: [BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         FormsModule,
         RouterModule.forRoot([
-            { path: '', component: HomeComponent, pathMatch: 'full' }
+            { path: '', component: PersonListComponent, pathMatch: 'full' },
+            { path: 'instructions', component: InstructionsComponent, pathMatch: 'full' }
         ])], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }

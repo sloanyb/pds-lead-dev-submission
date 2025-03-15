@@ -4,6 +4,6 @@ namespace UKParliament.CodeTest.Data.Repository;
 
 public interface IPersonRepository
 {
-    Person? GetPerson(int personId);
-    Person AddPerson(Person newPerson);
+    Task<Person?> GetPersonAsync(int personId);
+    Task<Person> AddPersonAsync(Person newPerson);
 }

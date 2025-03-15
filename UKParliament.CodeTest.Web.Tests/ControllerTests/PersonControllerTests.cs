@@ -11,7 +11,7 @@ namespace UKParliament.CodeTest.Web.Tests.ControllerTests;
 public class PersonControllerTests
 {
     [Fact]
-    public void WhenPersonExists_ThenPersonIsReturned()
+    public async Task WhenPersonExists_ThenPersonIsReturned()
     {
         var personService = A.Fake<IPersonService>();
 
@@ -22,10 +22,10 @@ public class PersonControllerTests
             LastName = "Bloggs"
         };
 
-        A.CallTo(() => personService.GetPersonById(1)).Returns(person);
+        A.CallTo(() => personService.GetPersonByIdAsync(1)).Returns(Task.FromResult(person));
 
         var controller = new PersonController(personService);
-        var result = controller.GetById(1);
+        var result = await controller.GetById(1);
 
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
         var personViewModel = Assert.IsType<PersonViewModel>(okResult.Value);
@@ -37,29 +37,28 @@ public class PersonControllerTests
     }
 
     [Fact]
-    public void WhenPersonDoesNotExist_ThenCorrectNotFoundResult()
+    public async Task WhenPersonDoesNotExist_ThenCorrectNotFoundResult()
     {
         var personService = A.Fake<IPersonService>();
-        A.CallTo(() => personService.GetPersonById(2)).Returns(null);
+        A.CallTo(() => personService.GetPersonByIdAsync(2)).Returns(Task.FromResult<Person?>(null));
 
         var controller = new PersonController(personService);
-        var result = controller.GetById(2);
+        var result = await controller.GetById(2);
 
         Assert.IsType<NotFoundResult>(result.Result);
     }
 
     [Fact]
-    public void WhenValidPersonIsAdded_ReturnsCreatedAtActionResult()
+    public async Task WhenValidPersonIsAdded_ReturnsCreatedAtActionResult()
     {
         var personService = A.Fake<IPersonService>();
         
-        A.CallTo(() => personService.AddPerson(A<Person>.Ignored))
+        A.CallTo(() => personService.AddPersonAsync(A<Person>.Ignored))
             .ReturnsLazily((Person p) =>
             {
                 p.Id = 1;
-                return p;
+                return Task.FromResult(p);
             });
-        
         var newPersonViewModel = new PersonViewModel
         {
             FirstName = "Alice",
@@ -68,7 +67,7 @@ public class PersonControllerTests
 
         var controller = new PersonController(personService);
 
-        var result = controller.Add(newPersonViewModel);
+        var result = await controller.Add(newPersonViewModel);
 
         var createdResult = Assert.IsType<CreatedAtActionResult>(result);
         Assert.Equal("GetById", createdResult.ActionName);
@@ -79,7 +78,7 @@ public class PersonControllerTests
         Assert.Equal("Smith", returnedViewModel.LastName);
 
         // Additionally, verify that AddPerson was indeed called once with a matching person.
-        A.CallTo(() => personService.AddPerson(A<Person>.That.Matches(
+        A.CallTo(() => personService.AddPersonAsync(A<Person>.That.Matches(
                 p => p.FirstName == "Alice" && p.LastName == "Smith")))
             .MustHaveHappenedOnceExactly();
     }

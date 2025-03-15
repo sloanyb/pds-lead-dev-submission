@@ -4,6 +4,6 @@ namespace UKParliament.CodeTest.Services;
 
 public interface IPersonService
 {
-    Person? GetPersonById(int personId);
-    Person AddPerson(Person newPerson);
+    Task<Person?> GetPersonByIdAsync(int personId);
+    Task<Person> AddPersonAsync(Person newPerson);
 }

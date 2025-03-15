@@ -17,10 +17,15 @@ public class PersonServiceTests
             LastName = "Smith"
         };
         
-        var fakePersonRepo = Assert.Fake<IPersonRepository>();
+        var fakePersonRepo = A.Fake<IPersonRepository>();
         
         A.CallTo(() => fakePersonRepo.GetPerson(1)).Returns(fakePerson);
         
         var service = new PersonService(fakePersonRepo);
     }
+}
+
+public interface IPersonRepository
+{
+    Person GetPerson(int personId);
 }

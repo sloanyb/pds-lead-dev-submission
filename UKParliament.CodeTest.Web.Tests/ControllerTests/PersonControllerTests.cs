@@ -33,4 +33,16 @@ public class PersonControllerTests
         Assert.Equal("Bloggs",personViewModel.LastName);
         Assert.Equal("Joe", personViewModel.FirstName);
     }
+    
+    [Fact]
+    public void WhenPersonDoesNotExist_ThenCorrectNotFoundResult()
+    {
+        var personService = A.Fake<IPersonService>();
+        A.CallTo(() => personService.GetPersonById(2)).Returns(null);
+        
+        var controller = new PersonController(personService);
+        var result = controller.GetById(2);
+        
+        Assert.IsType<NotFoundResult>(result.Result);
+    }
 }

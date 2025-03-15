@@ -1,8 +1,8 @@
-﻿using UKParliament.CodeTest.Data;
+﻿using UKParliament.CodeTest.Data.Repository;
 
 namespace UKParliament.CodeTest.Services;
 
-public class PersonService(IPersonRepository personManagerContext) : IPersonService
+public class PersonService(IPersonRepository personManagerRepository) : IPersonService
 {
-    private readonly PersonManagerContext _personManagerContext = personManagerContext;
+    private readonly IPersonRepository _personManagerRepository = personManagerRepository;
 }

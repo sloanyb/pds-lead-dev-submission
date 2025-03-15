@@ -1,42 +1,32 @@
-﻿using FakeItEasy;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using UKParliament.CodeTest.Data.Model;
 using UKParliament.CodeTest.Data.Repository;
 using Xunit;
-
 
 namespace UKParliament.CodeTest.Data.Tests;
 
 public class PersonRepositoryTests
 {
-    private static PersonManagerContext GetFakeContext()
-    {
-        var fakePeople = new List<Person>
-        {
-            new() { Id = 1, FirstName = "Alice", LastName = "Smith" },
-            new() { Id = 2, FirstName = "Bob", LastName = "Jones" }
-        }.AsQueryable();
-
-        var fakePeopleDbSet = A.Fake<DbSet<Person>>(options => options.Implements(typeof(IQueryable<Person>)));
-
-        A.CallTo(() => ((IQueryable<Person>)fakePeopleDbSet).Provider).Returns(fakePeople.Provider);
-        A.CallTo(() => ((IQueryable<Person>)fakePeopleDbSet).Expression).Returns(fakePeople.Expression);
-        A.CallTo(() => ((IQueryable<Person>)fakePeopleDbSet).ElementType).Returns(fakePeople.ElementType);
-        A.CallTo(() => ((IQueryable<Person>)fakePeopleDbSet).GetEnumerator()).Returns(fakePeople.GetEnumerator());
-
-        var fakeContext = A.Fake<PersonManagerContext>();
-
-        A.CallTo(() => fakeContext.People).Returns(fakePeopleDbSet);
-        
-        return fakeContext;
-    }
-
-    
     [Fact]
-    public void GetById_ReturnPerson()
+    public void GetById_ForExistingPerson_ReturnsPerson()
     {
-        var fakeContext = GetFakeContext();
-        var personRepo = new PersonRepository(fakeContext);
-
+        var options = new DbContextOptionsBuilder<PersonManagerContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+    
+        using (var context = new PersonManagerContext(options))
+        {
+            context.People.Add(new Person { Id = 1, FirstName = "Bob", LastName = "Smith" });
+            context.SaveChanges();
+        }
+    
+        using (var context = new PersonManagerContext(options))
+        {
+            var repo = new PersonRepository(context);
+            var person = repo.GetPerson(1);
+        
+            Assert.NotNull(person);
+            Assert.Equal("Joe", person.FirstName);
+        }
     }
 }

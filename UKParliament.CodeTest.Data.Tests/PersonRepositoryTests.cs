@@ -30,4 +30,26 @@ public class PersonRepositoryTests
             Assert.Equal("Bloggs", person.LastName);
         }
     }
+    
+    [Fact]
+    public void GetById_ForNonExistingPerson_ReturnsNull()
+    {
+        var options = new DbContextOptionsBuilder<PersonManagerContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+    
+        using (var context = new PersonManagerContext(options))
+        {
+            context.People.Add(new Person { Id = 1, FirstName = "Joe", LastName = "Bloggs" });
+            context.SaveChanges();
+        }
+    
+        using (var context = new PersonManagerContext(options))
+        {
+            var repo = new PersonRepository(context);
+            var person = repo.GetPerson(2);
+
+            Assert.Null(person);
+        }
+    }
 }

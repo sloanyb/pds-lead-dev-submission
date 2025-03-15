@@ -43,5 +43,14 @@ public class PersonController : ControllerBase
         };
         
         var addedPerson = _personService.AddPerson(personToAdd);
+
+        var returnViewModel = new PersonViewModel()
+        {
+            Id = addedPerson.Id,
+            FirstName = addedPerson.FirstName,
+            LastName = addedPerson.LastName
+        };
+        
+        return CreatedAtAction(nameof(GetById), new { id = addedPerson.Id }, returnViewModel);
     }
 }

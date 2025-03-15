@@ -52,6 +52,14 @@ public class PersonControllerTests
     public void WhenValidPersonIsAdded_ReturnsCreatedAtActionResult()
     {
         var personService = A.Fake<IPersonService>();
+        
+        A.CallTo(() => personService.AddPerson(A<Person>.Ignored))
+            .ReturnsLazily((Person p) =>
+            {
+                p.Id = 1;
+                return p;
+            });
+        
         var newPersonViewModel = new PersonViewModel
         {
             FirstName = "Alice",
@@ -66,7 +74,7 @@ public class PersonControllerTests
         Assert.Equal("GetById", createdResult.ActionName);
 
         var returnedViewModel = Assert.IsType<PersonViewModel>(createdResult.Value);
-        Assert.Equal(2, returnedViewModel.Id);
+        Assert.Equal(1, returnedViewModel.Id);
         Assert.Equal("Alice", returnedViewModel.FirstName);
         Assert.Equal("Smith", returnedViewModel.LastName);
 

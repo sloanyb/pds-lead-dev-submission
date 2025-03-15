@@ -20,6 +20,7 @@ public class PersonController : ControllerBase
     public ActionResult<PersonViewModel> GetById(int id)
     {
         var person = _personService.GetPersonById(id);
+        
         return Ok(new PersonViewModel()
         {
             Id = person.Id,

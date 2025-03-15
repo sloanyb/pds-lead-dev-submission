@@ -8,7 +8,7 @@ namespace UKParliament.CodeTest.Services.Tests;
 public class PersonServiceTests
 {
     [Fact]
-    public void PersonService_WhenPersonExists_ReturnsPerson()
+    public async Task PersonService_WhenPersonExists_ReturnsPerson()
     {
         var fakePerson = new Person()
         {
@@ -19,11 +19,12 @@ public class PersonServiceTests
         
         var fakePersonRepo = A.Fake<IPersonRepository>();
         
-        A.CallTo(() => fakePersonRepo.GetPerson(1)).Returns(fakePerson);
+        A.CallTo(() => fakePersonRepo.GetPersonAsync(1))
+            .Returns(Task.FromResult(fakePerson));
         
         var service = new PersonService(fakePersonRepo);
 
-        var person = service.GetPersonById(1);
+        var person = await service.GetPersonByIdAsync(1);
         
         Assert.NotNull(fakePerson);
         Assert.Equal("Bloggs", person.LastName);
@@ -32,7 +33,7 @@ public class PersonServiceTests
     }
     
     [Fact]
-    public void PersonService_AddPerson_CallsRepositoryAddPerson()
+    public async Task PersonService_AddPerson_CallsRepositoryAddPerson()
     {
         var fakePersonRepo = A.Fake<IPersonRepository>();
         var service = new PersonService(fakePersonRepo);
@@ -42,7 +43,7 @@ public class PersonServiceTests
             LastName = "Smith"
         };
 
-        var savedPerson = service.AddPerson(newPerson);
-        A.CallTo(() => fakePersonRepo.AddPerson(newPerson)).MustHaveHappenedOnceExactly();
+        var savedPerson = await service.AddPersonAsync(newPerson);
+        A.CallTo(() => fakePersonRepo.AddPersonAsync(newPerson)).MustHaveHappenedOnceExactly();
     }
 }

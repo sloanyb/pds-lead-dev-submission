@@ -18,9 +18,9 @@ public class PersonController : ControllerBase
 
     [Route("{id:int}")]
     [HttpGet]
-    public ActionResult<PersonViewModel> GetById(int id)
+    public async Task<ActionResult<PersonViewModel>> GetById(int id)
     {
-        var person = _personService.GetPersonById(id);
+        var person = await _personService.GetPersonByIdAsync(id);
         
         if(person == null)
             return NotFound();
@@ -34,7 +34,7 @@ public class PersonController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Add(PersonViewModel newPersonViewModel)
+    public async Task<IActionResult> Add(PersonViewModel newPersonViewModel)
     {
         var personToAdd = new Person()
         {
@@ -42,7 +42,7 @@ public class PersonController : ControllerBase
             LastName = newPersonViewModel.LastName
         };
         
-        var addedPerson = _personService.AddPerson(personToAdd);
+        var addedPerson = await _personService.AddPersonAsync(personToAdd);
 
         var returnViewModel = new PersonViewModel()
         {

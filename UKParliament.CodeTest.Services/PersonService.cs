@@ -12,13 +12,13 @@ public class PersonService : IPersonService
         _personRepository = personRepository;
     }
     
-    public Person? GetPersonById(int personId)
+    public async Task<Person?> GetPersonByIdAsync(int personId)
     {
-        return _personRepository.GetPerson(personId);
+        return await _personRepository.GetPersonAsync(personId);
     }
 
-    public Person AddPerson(Person newPerson)
+    public async Task<Person> AddPersonAsync(Person newPerson)
     {
-        return _personRepository.AddPerson(newPerson);
+        return await _personRepository.AddPersonAsync(newPerson);
     }
 }

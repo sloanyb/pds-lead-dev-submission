@@ -27,6 +27,7 @@ public class PersonRepositoryTests
         
             Assert.NotNull(person);
             Assert.Equal("Joe", person.FirstName);
+            Assert.Equal("Bloggs", person.LastName);
         }
     }
 }

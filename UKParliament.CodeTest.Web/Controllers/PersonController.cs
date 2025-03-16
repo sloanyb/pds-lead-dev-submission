@@ -3,95 +3,117 @@ using UKParliament.CodeTest.Data.Model;
 using UKParliament.CodeTest.Services;
 using UKParliament.CodeTest.Web.ViewModels;
 
-namespace UKParliament.CodeTest.Web.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-public class PersonController : ControllerBase
+namespace UKParliament.CodeTest.Web.Controllers
 {
-    private readonly IPersonService _personService;
-
-    public PersonController(IPersonService personService)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class PersonController : ControllerBase
     {
-        _personService = personService;
-    }
+        private readonly IPersonService _personService;
+        public PersonController(IPersonService personService) => _personService = personService;
 
-    [Route("{id:int}")]
-    [HttpGet]
-    public async Task<ActionResult<PersonUpdateViewModel>> GetById(int id)
-    {
-        var person = await _personService.GetPersonByIdAsync(id);
-        
-        if(person == null)
-            return NotFound();
-        
-        return Ok(new PersonUpdateViewModel()
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<PersonGetViewModel>> GetById(int id)
         {
-            Id = person.Id,
-            LastName = person.LastName,
-            FirstName = person.FirstName,
-        });
-    }
+            var person = await _personService.GetPersonByIdAsync(id);
+            
+            if (person == null)
+                return NotFound();
+            
+            var viewModel = new PersonGetViewModel
+            {
+                Id = person.Id,
+                FirstName = person.FirstName,
+                LastName = person.LastName,
+                DateOfBirth = person.DateOfBirth,
+                Department = new PersonGetDepartmentViewModel
+                {
+                    Id = person.Department.Id,
+                    DepartmentName = person.Department.Name
+                }
+            };
+            
+            return Ok(viewModel);
+        }
 
-    [HttpPost]
-    public async Task<IActionResult> Add(PersonUpdateViewModel newPersonUpdateViewModel)
-    {
-        var personToAdd = new Person()
+        [HttpPost]
+        public async Task<IActionResult> Add(PersonUpdateViewModel newPersonUpdateViewModel)
         {
-            FirstName = newPersonUpdateViewModel.FirstName,
-            LastName = newPersonUpdateViewModel.LastName,
-            DepartmentId = newPersonUpdateViewModel.DepartmentId
-        };
-        
-        var addedPerson = await _personService.AddPersonAsync(personToAdd);
+            var personToAdd = new Person
+            {
+                FirstName = newPersonUpdateViewModel.FirstName,
+                LastName = newPersonUpdateViewModel.LastName,
+                DateOfBirth = newPersonUpdateViewModel.DateOfBirth,
+                DepartmentId = newPersonUpdateViewModel.DepartmentId
+            };
+            
+            var addedPerson = await _personService.AddPersonAsync(personToAdd);
+            
+            var returnViewModel = new PersonGetViewModel
+            {
+                Id = addedPerson.Id,
+                FirstName = addedPerson.FirstName,
+                LastName = addedPerson.LastName,
+                DateOfBirth = addedPerson.DateOfBirth,
+                Department = new PersonGetDepartmentViewModel
+                {
+                    Id = addedPerson.Department.Id,
+                    DepartmentName = addedPerson.Department.Name
+                }
+            };
+            
+            return CreatedAtAction(nameof(GetById), new { id = addedPerson.Id }, returnViewModel);
+        }
 
-        var returnViewModel = new PersonUpdateViewModel()
+        [HttpGet]
+        public async Task<IActionResult> GetAllAsync()
         {
-            Id = addedPerson.Id,
-            FirstName = addedPerson.FirstName,
-            LastName = addedPerson.LastName,
-            DepartmentId = addedPerson.DepartmentId
-        };
-        
-        return CreatedAtAction(nameof(GetById), new { id = addedPerson.Id }, returnViewModel);
-    }
+            var people = await _personService.GetAllAsync();
+            
+            var personViewModels = people.Select(p => new PersonGetViewModel
+            {
+                Id = p.Id,
+                FirstName = p.FirstName,
+                LastName = p.LastName,
+                DateOfBirth = p.DateOfBirth,
+                Department = new PersonGetDepartmentViewModel
+                {
+                    Id = p.Department.Id,
+                    DepartmentName = p.Department.Name
+                }
+            });
+            
+            return Ok(personViewModels);
+        }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
-    {
-        var people = await _personService.GetAllAsync();
-        
-        var peopleModels = people.Select(p => new PersonUpdateViewModel
+        [HttpPut("{id}")]
+        public async Task<ActionResult<PersonGetViewModel>> Update(int id, PersonUpdateViewModel personUpdateViewModel)
         {
-            Id = p.Id,
-            FirstName = p.FirstName,
-            LastName = p.LastName
-        });
-
-        return Ok(peopleModels);
-    }
-    
-    [HttpPut("{id}")]
-    public async Task<ActionResult<PersonUpdateViewModel>> Update(int id, PersonUpdateViewModel personUpdateViewModel)
-    {
-        var personToUpdate = new Person
-        {
-            Id = id,
-            FirstName = personUpdateViewModel.FirstName,
-            LastName = personUpdateViewModel.LastName,
-            DepartmentId = personUpdateViewModel.DepartmentId
-        };
-
-        var updatedPerson = await _personService.UpdatePersonAsync(personToUpdate);
-        
-        var updatedViewModel = new PersonUpdateViewModel
-        {
-            Id = id,
-            FirstName = updatedPerson.FirstName,
-            LastName = updatedPerson.LastName,
-            DepartmentId = updatedPerson.DepartmentId
-        };
-
-        return Ok(updatedViewModel);
+            var personToUpdate = new Person
+            {
+                Id = id,
+                FirstName = personUpdateViewModel.FirstName,
+                LastName = personUpdateViewModel.LastName,
+                DateOfBirth = personUpdateViewModel.DateOfBirth,
+                DepartmentId = personUpdateViewModel.DepartmentId
+            };
+            
+            var updatedPerson = await _personService.UpdatePersonAsync(personToUpdate);
+            
+            var updatedViewModel = new PersonGetViewModel
+            {
+                Id = updatedPerson.Id,
+                FirstName = updatedPerson.FirstName,
+                LastName = updatedPerson.LastName,
+                DateOfBirth = updatedPerson.DateOfBirth,
+                Department = new PersonGetDepartmentViewModel
+                {
+                    Id = updatedPerson.Department.Id,
+                    DepartmentName = updatedPerson.Department.Name
+                }
+            };
+            
+            return Ok(updatedViewModel);
+        }
     }
 }

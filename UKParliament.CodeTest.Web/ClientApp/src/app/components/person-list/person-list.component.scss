@@ -1,0 +1,35 @@
+@import '~@angular/material/prebuilt-themes/purple-green.css';
+
+.people-container {
+  display: grid;
+  grid-gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  margin-top: 16px;
+}
+
+.person-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #1E1E1E;
+  border-radius: 8px;
+  margin: 8px 0;
+  color: white;
+}
+
+.avatar-icon {
+  background-color: #373151;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-button-container {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.mat-mdc-card-subtitle
+{
+  margin-top: 20px;
+}

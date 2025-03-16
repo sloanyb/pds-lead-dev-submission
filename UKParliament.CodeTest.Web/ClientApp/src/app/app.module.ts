@@ -10,6 +10,10 @@ import { PersonListComponent } from './components/person-list/person-list.compon
 import { PersonEditorComponent } from './components/person-editor/person-editor.component';
 import { PersonAddComponent } from './components/person-add/person-add.component';
 
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+
 @NgModule({ declarations: [
         AppComponent,
         InstructionsComponent,
@@ -19,6 +23,9 @@ import { PersonAddComponent } from './components/person-add/person-add.component
     ],
     bootstrap: [AppComponent], imports: [BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
     FormsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
     RouterModule.forRoot([
       {path: '', component: PersonListComponent, pathMatch: 'full'},
       {path: 'person/edit/:id', component: PersonEditorComponent},

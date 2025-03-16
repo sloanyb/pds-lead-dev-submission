@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PersonViewModel } from '../models/person-view-model';
+import { PersonGetViewModel } from '../models/person-view-model';
+import { PersonUpdateViewModel } from '../models/person-view-model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,19 +10,19 @@ import { PersonViewModel } from '../models/person-view-model';
 export class PersonService {
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
-  getById(id: number): Observable<PersonViewModel> {
-    return this.http.get<PersonViewModel>(this.baseUrl + `api/person/${id}`)
+  getById(id: number): Observable<PersonGetViewModel> {
+    return this.http.get<PersonGetViewModel>(`${this.baseUrl}api/person/${id}`);
   }
 
-  getAll(): Observable<PersonViewModel[]> {
-    return this.http.get<PersonViewModel[]>(this.baseUrl + 'api/person');
+  getAll(): Observable<PersonGetViewModel[]> {
+    return this.http.get<PersonGetViewModel[]>(`${this.baseUrl}api/person`);
   }
 
-  addPerson(person: PersonViewModel): Observable<PersonViewModel> {
-    return this.http.post<PersonViewModel>(`${this.baseUrl}api/person`, person);
+  addPerson(person: PersonUpdateViewModel): Observable<PersonGetViewModel> {
+    return this.http.post<PersonGetViewModel>(`${this.baseUrl}api/person`, person);
   }
 
-  updatePerson(person: PersonViewModel): Observable<PersonViewModel> {
-    return this.http.put<PersonViewModel>(`${this.baseUrl}api/person/${person.id}`, person);
+  updatePerson(person: PersonUpdateViewModel): Observable<PersonGetViewModel> {
+    return this.http.put<PersonGetViewModel>(`${this.baseUrl}api/person/${person.id}`, person);
   }
 }

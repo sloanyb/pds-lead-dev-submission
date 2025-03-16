@@ -14,6 +14,25 @@
       Last Name is required.
     </div>
   </div>
-
+  <div>
+    <label for="dateOfBirth">Date of Birth:</label>
+    <input id="dateOfBirth" formControlName="dateOfBirth" type="date">
+    <div *ngIf="personForm.get('dateOfBirth')?.invalid && personForm.get('dateOfBirth')?.touched">
+      Date of Birth is required.
+    </div>
+  </div>
+  <div>
+    <label for="departmentId">Department:</label>
+    <select id="departmentId" formControlName="departmentId">
+      <option value="" disabled>Select Department</option>
+      <option value="1">Sales</option>
+      <option value="2">Marketing</option>
+      <option value="3">Finance</option>
+      <option value="4">HR</option>
+    </select>
+    <div *ngIf="personForm.get('departmentId')?.invalid && personForm.get('departmentId')?.touched">
+      Department is required.
+    </div>
+  </div>
   <button type="submit" [disabled]="personForm.invalid">Add Person</button>
 </form>

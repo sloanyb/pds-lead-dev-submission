@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { PersonService } from '../../services/person.service';
-import { PersonViewModel } from '../../models/person-view-model';
+import { PersonGetViewModel } from '../../models/person-view-model';
 
 @Component({
   selector: 'app-person-list',
   standalone: false,
   templateUrl: './person-list.component.html',
-  styleUrls: ['./person-list.component.scss']  // Note: plural 'styleUrls' is expected
+  styleUrls: ['./person-list.component.scss']
 })
 export class PersonListComponent implements OnInit {
-  people: PersonViewModel[] = [];
+  people: PersonGetViewModel[] = [];
 
   constructor(private personService: PersonService) { }
 
   ngOnInit(): void {
     this.personService.getAll().subscribe(
-      (data: PersonViewModel[]) => {
+      (data: PersonGetViewModel[]) => {
         this.people = data;
       },
       error => {

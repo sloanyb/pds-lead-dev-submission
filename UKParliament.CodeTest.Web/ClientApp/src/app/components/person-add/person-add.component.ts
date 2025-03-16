@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PersonService } from '../../services/person.service';
-import { PersonViewModel } from '../../models/person-view-model';
 
 @Component({
   selector: 'app-person-add',
@@ -19,18 +18,18 @@ export class PersonAddComponent implements OnInit {
   ) {
     this.personForm = this.fb.group({
       firstName: ['', Validators.required],
-      lastName: ['', Validators.required]
+      lastName: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      departmentId: [null, Validators.required]
     });
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   onSubmit(): void {
     if (this.personForm.valid) {
       this.personService.addPerson(this.personForm.value).subscribe(
-        (newPerson: PersonViewModel) => {
+        newPerson => {
           this.router.navigate(['/']);
         },
         error => {

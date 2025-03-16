@@ -18,14 +18,14 @@ public class PersonController : ControllerBase
 
     [Route("{id:int}")]
     [HttpGet]
-    public async Task<ActionResult<PersonViewModel>> GetById(int id)
+    public async Task<ActionResult<PersonUpdateViewModel>> GetById(int id)
     {
         var person = await _personService.GetPersonByIdAsync(id);
         
         if(person == null)
             return NotFound();
         
-        return Ok(new PersonViewModel()
+        return Ok(new PersonUpdateViewModel()
         {
             Id = person.Id,
             LastName = person.LastName,
@@ -34,21 +34,23 @@ public class PersonController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add(PersonViewModel newPersonViewModel)
+    public async Task<IActionResult> Add(PersonUpdateViewModel newPersonUpdateViewModel)
     {
         var personToAdd = new Person()
         {
-            FirstName = newPersonViewModel.FirstName,
-            LastName = newPersonViewModel.LastName
+            FirstName = newPersonUpdateViewModel.FirstName,
+            LastName = newPersonUpdateViewModel.LastName,
+            DepartmentId = newPersonUpdateViewModel.DepartmentId
         };
         
         var addedPerson = await _personService.AddPersonAsync(personToAdd);
 
-        var returnViewModel = new PersonViewModel()
+        var returnViewModel = new PersonUpdateViewModel()
         {
             Id = addedPerson.Id,
             FirstName = addedPerson.FirstName,
-            LastName = addedPerson.LastName
+            LastName = addedPerson.LastName,
+            DepartmentId = addedPerson.DepartmentId
         };
         
         return CreatedAtAction(nameof(GetById), new { id = addedPerson.Id }, returnViewModel);
@@ -59,7 +61,7 @@ public class PersonController : ControllerBase
     {
         var people = await _personService.GetAllAsync();
         
-        var peopleModels = people.Select(p => new PersonViewModel
+        var peopleModels = people.Select(p => new PersonUpdateViewModel
         {
             Id = p.Id,
             FirstName = p.FirstName,
@@ -70,22 +72,24 @@ public class PersonController : ControllerBase
     }
     
     [HttpPut("{id}")]
-    public async Task<ActionResult<PersonViewModel>> Update(int id, PersonViewModel personViewModel)
+    public async Task<ActionResult<PersonUpdateViewModel>> Update(int id, PersonUpdateViewModel personUpdateViewModel)
     {
         var personToUpdate = new Person
         {
             Id = id,
-            FirstName = personViewModel.FirstName,
-            LastName = personViewModel.LastName
+            FirstName = personUpdateViewModel.FirstName,
+            LastName = personUpdateViewModel.LastName,
+            DepartmentId = personUpdateViewModel.DepartmentId
         };
 
         var updatedPerson = await _personService.UpdatePersonAsync(personToUpdate);
         
-        var updatedViewModel = new PersonViewModel
+        var updatedViewModel = new PersonUpdateViewModel
         {
             Id = id,
             FirstName = updatedPerson.FirstName,
-            LastName = updatedPerson.LastName
+            LastName = updatedPerson.LastName,
+            DepartmentId = updatedPerson.DepartmentId
         };
 
         return Ok(updatedViewModel);

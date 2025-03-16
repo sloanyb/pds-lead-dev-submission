@@ -28,7 +28,7 @@ public class PersonControllerTests
         var result = await controller.GetById(1);
 
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
-        var personViewModel = Assert.IsType<PersonViewModel>(okResult.Value);
+        var personViewModel = Assert.IsType<PersonUpdateViewModel>(okResult.Value);
 
         Assert.NotNull(personViewModel);
 
@@ -59,7 +59,7 @@ public class PersonControllerTests
                 p.Id = 1;
                 return Task.FromResult(p);
             });
-        var newPersonViewModel = new PersonViewModel
+        var newPersonViewModel = new PersonUpdateViewModel
         {
             FirstName = "Alice",
             LastName = "Smith"
@@ -72,7 +72,7 @@ public class PersonControllerTests
         var createdResult = Assert.IsType<CreatedAtActionResult>(result);
         Assert.Equal("GetById", createdResult.ActionName);
 
-        var returnedViewModel = Assert.IsType<PersonViewModel>(createdResult.Value);
+        var returnedViewModel = Assert.IsType<PersonUpdateViewModel>(createdResult.Value);
         Assert.Equal(1, returnedViewModel.Id);
         Assert.Equal("Alice", returnedViewModel.FirstName);
         Assert.Equal("Smith", returnedViewModel.LastName);
@@ -101,7 +101,7 @@ public class PersonControllerTests
         var result = await controller.GetAllAsync();
 
         var okResult = Assert.IsType<OkObjectResult>(result);
-        var viewModelList = Assert.IsAssignableFrom<IEnumerable<PersonViewModel>>(okResult.Value);
+        var viewModelList = Assert.IsAssignableFrom<IEnumerable<PersonUpdateViewModel>>(okResult.Value);
 
         Assert.Equal(2, viewModelList.Count());
         Assert.Contains(viewModelList, vm => vm.Id == 1 && vm.FirstName == "Alice" && vm.LastName == "Smith");
@@ -121,7 +121,7 @@ public class PersonControllerTests
 
         var controller = new PersonController(personService);
         
-        var updateViewModel = new PersonViewModel
+        var updateViewModel = new PersonUpdateViewModel
         {
             Id = 1,
             FirstName = "Joseph",
@@ -131,7 +131,7 @@ public class PersonControllerTests
         var result = await controller.Update(1, updateViewModel);
 
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
-        var returnedViewModel = Assert.IsType<PersonViewModel>(okResult.Value);
+        var returnedViewModel = Assert.IsType<PersonUpdateViewModel>(okResult.Value);
         
         Assert.Equal(1, returnedViewModel.Id);
         Assert.Equal("Joseph", returnedViewModel.FirstName);

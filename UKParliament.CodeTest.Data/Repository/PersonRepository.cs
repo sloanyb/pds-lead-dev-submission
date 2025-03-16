@@ -7,7 +7,7 @@ public class PersonRepository(PersonManagerContext personManagerContext) : IPers
 {
     public async Task<Person?> GetPersonAsync(int personId)
     {
-        return await personManagerContext.People.SingleOrDefaultAsync(x => x.Id == personId);
+        return await personManagerContext.People.Include(p => p.Department).SingleOrDefaultAsync(x => x.Id == personId);
     }
 
     public async Task<Person> AddPersonAsync(Person newPerson)
@@ -20,7 +20,7 @@ public class PersonRepository(PersonManagerContext personManagerContext) : IPers
 
     public async Task<IEnumerable<Person>> GetAllAsync()
     {
-        return await personManagerContext.People.ToListAsync();
+        return await personManagerContext.People.Include(p => p.Department).ToListAsync();
     }
     
     public async Task<Person> UpdatePersonAsync(Person person)

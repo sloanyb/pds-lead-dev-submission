@@ -1,3 +1,4 @@
+<div class="person-add-wrapper">
 <h2>Add New Person</h2>
 <form [formGroup]="personForm" (ngSubmit)="onSubmit()">
   <div>
@@ -34,5 +35,9 @@
       Department is required.
     </div>
   </div>
+
   <button type="submit" [disabled]="personForm.invalid">Add Person</button>
+
+
 </form>
+</div>

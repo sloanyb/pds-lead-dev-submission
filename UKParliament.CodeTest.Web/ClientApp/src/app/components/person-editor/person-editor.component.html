@@ -1,26 +1,28 @@
-<h2>Edit Person</h2>
-<form [formGroup]="personForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="firstName">First Name:</label>
-    <input id="firstName" formControlName="firstName" type="text">
-  </div>
-  <div>
-    <label for="lastName">Last Name:</label>
-    <input id="lastName" formControlName="lastName" type="text">
-  </div>
-  <div>
-    <label for="dateOfBirth">Date of Birth:</label>
-    <input id="dateOfBirth" formControlName="dateOfBirth" type="date">
-  </div>
-  <div>
-    <label for="departmentId">Department:</label>
-    <select id="departmentId" formControlName="departmentId">
-      <option value="" disabled>Select Department</option>
-      <option value="1">Sales</option>
-      <option value="2">Marketing</option>
-      <option value="3">Finance</option>
-      <option value="4">HR</option>
-    </select>
-  </div>
-  <button type="submit" [disabled]="personForm.invalid">Save</button>
-</form>
+<div class="person-edit-wrapper">
+  <h2>Edit Person</h2>
+  <form [formGroup]="personForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="firstName">First Name:</label>
+      <input id="firstName" formControlName="firstName" type="text">
+    </div>
+    <div>
+      <label for="lastName">Last Name:</label>
+      <input id="lastName" formControlName="lastName" type="text">
+    </div>
+    <div>
+      <label for="dateOfBirth">Date of Birth:</label>
+      <input id="dateOfBirth" formControlName="dateOfBirth" type="date">
+    </div>
+    <div>
+      <label for="departmentId">Department:</label>
+      <select id="departmentId" formControlName="departmentId">
+        <option value="" disabled>Select Department</option>
+        <option value="1">Sales</option>
+        <option value="2">Marketing</option>
+        <option value="3">Finance</option>
+        <option value="4">HR</option>
+      </select>
+    </div>
+    <button type="submit" [disabled]="personForm.invalid">Save</button>
+  </form>
+</div>

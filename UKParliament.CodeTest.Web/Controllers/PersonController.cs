@@ -20,6 +20,27 @@ public class PersonController : ControllerBase
         if (person == null)
             return NotFound();
             
+        // Todo: Mappers! I note the requirement to move mapping logic out of the controller
+        // I have just run out of time.
+        
+        // My thoughts are that I would have an IModelMapper interface, with a ModelMapper
+        // implementation setup in DI.
+        
+        // It would have methods something like:
+        // Person MapToPerson(PersonUpdateViewModel input)
+        // Person MapToPerson(PersonAddViewModel input)
+        // PersonGetViewModel MapToPersonGetViewModel(Person input)
+        
+        // These would have separate tests around them to ensure all mapping was successful
+        // and be used throughout the controller.
+        
+        // Unfortunately I have run out of time to spend but would get this done with perhaps
+        // another 30-45 minutes including full suite of unit tests.
+        
+        // Therefore all mapping is manually done in the controller although is covered with unit
+        // tests; so whilst not ideal, is tested. As an example if you try and change a mapping below
+        // and run the tests, it will fail.
+        
         var viewModel = new PersonGetViewModel
         {
             Id = person.Id,

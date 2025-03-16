@@ -2,11 +2,8 @@
 
 namespace UKParliament.CodeTest.Web.ViewModels;
 
-public class PersonUpdateViewModel
+public class PersonAddViewModel
 {
-    [Required(ErrorMessage = "ID is required")]
-    public int? Id { get; set; }
-
     [Required(ErrorMessage = "First Name is required.")]
     public string? FirstName { get; set; }
 

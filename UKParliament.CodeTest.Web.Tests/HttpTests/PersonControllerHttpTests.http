@@ -1,4 +1,13 @@
-﻿### POST: Save a new person
+﻿### POST: Save a new person without a date of birth or department. This should generate a bad request.
+POST https://localhost:44416/api/person
+Content-Type: application/json
+
+{
+  "firstName": "Jane",
+  "lastName": "Doe"
+}
+
+### POST: Save a new person
 POST https://localhost:44416/api/person
 Content-Type: application/json
 
@@ -25,6 +34,19 @@ Content-Type: application/json
   "dateOfBirth": "1990-01-01",
   "departmentId": 2
 }
+
+
+### PUT: Update an existing person without a last name. This should generate a bad request.
+PUT https://localhost:44416/api/person/{{personId}}
+Content-Type: application/json
+
+{
+  "id": {{personId}},
+  "firstName": "Janet",
+  "dateOfBirth": "1990-01-01",
+  "departmentId": 2
+}
+
 
 ### Get all people
 GET https://localhost:44416/api/person
